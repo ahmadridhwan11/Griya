@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimia.farma.Interface.ObatInterface">
+	<resultMap id="BaseResultMap" type="com.kimia.farma.model.Obat">
+		<id column="kd_obat" property="kd_obat" />
+		<result column="nama_obat" property="nama_obat" />
+		<result column="stok" property="stok" />
+		<result column="merk" property="merk" />
+		<result column="jenis" property="jenis" />
+		<result column="type" property="type" />
+		<result column="harga" property="harga" />
+	</resultMap>
+
+	<insert id="InsertObat" parameterType="com.kimia.farma.model.Obat">
+		INSERT INTO obat( kd_obat,
+		nama_obat,
+		merk,
+		jenis,
+		type,
+		harga) VALUES (#{kd_obat},#{nama_obat},
+		#{merk},
+		#{jenis},
+		#{type},
+		#{harga})
+	</insert>
+
+	<update id="UpdateObat" parameterType="com.kimia.farma.model.Obat">
+		UPDATE obat SET
+		nama_obat=#{nama_obat},
+		merk=#{merk},
+		jenis=#{jenis},
+		type=#{type},
+		harga=#{harga}
+		WHERE kd_obat=#{kd_obat}
+	</update>
+	<update id="UpdateStock" parameterType="com.kimia.farma.model.Obat">
+		UPDATE obat SET stok=#{stok}
+		WHERE kd_obat=#{kd_obat}
+	</update>
+	
+	<delete id="DeleteObat" parameterType="java.lang.String">
+		DELETE FROM obat WHERE
+		kd_obat =#{kd_obat}
+	</delete>
+
+	<select id="getAllObat" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT kd_obat,
+		nama_obat,
+		stok,
+		merk,
+		jenis,
+		type,
+		harga FROM obat
+		<if test="kd_obat!=null">
+			WHERE kd_obat like '%'|| #{kd_obat} ||'%'
+		</if>
+	</select>
+	
+	
+	<select id="getObat" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT kd_obat,
+		nama_obat,
+		stok,
+		merk,
+		jenis,
+		type,
+		harga FROM obat WHERE nama_obat like '%'||#{nama_obat}||'%'
+	</select>
+	<select id="getCount" resultType="int">
+		SELECT COUNT(kd_obat) FROM obat;
+	</select>
+	
+	
+	<select id="getOneObat" parameterType="String" resultMap="BaseResultMap">
+		SELECT kd_obat,
+		nama_obat,
+		stok,
+		merk,
+		jenis,
+		type,
+		harga FROM obat
+			WHERE kd_obat=#{test}
+	</select>
+</mapper>

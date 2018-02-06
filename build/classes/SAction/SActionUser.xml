@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="Loginuser" extends="struts-default" namespace="/user">
+         <action name="login" method="Login" class="com.kimia.farma.JAction.UserJAction">
+    		<result name="input">/pages/modul/user/Login.jsp</result>
+    		<result name="success">/pages/modul/main/main.jsp</result>
+    		<result name="PASIEN">/pages/modul/main/mainPaisen.jsp</result>
+    		<result name="DAFTAR">/pages/modul/daftar/input.jsp</result>
+    		<result name="DOKTER">/pages/modul/main/mainDokter.jsp</result>
+    		<result name="APOTEKER">/pages/modul/main/mainApoteker.jsp</result>
+    		<result name="error">/pages/modul/user/Login.jsp</result>
+    	</action>
+    	 <action name="inputHome" method="inputHome" class="com.kimia.farma.JAction.UserJAction">
+    		<result name="input">/pages/modul/main/main.jsp</result>
+    		<result name="success">/pages/modul/main/main.jsp</result>
+    		<result name="error">/pages/modul/main/main.jsp</result>
+    	</action>
+    	<action name="dashboard">
+    		<result name="input">/pages/modul/user/Login.jsp</result>
+    		<result name="success">/pages/modul/main/dashboard.jsp</result>
+    		<result name="error">/pages/modul/user/Login.jsp</result>
+    	</action>
+    </package>
+</struts>

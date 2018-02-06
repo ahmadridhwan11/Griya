@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="dokter" extends="struts-default" namespace="/dokter">
+	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.kimia.farma.core.action.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	
+    	<global-results>
+			<result name="login">/pages/modul/user/Login.jsp</result>
+		</global-results>
+		<action name="inputDokter" class="com.kimia.farma.JAction.DokterJAction"
+			method="input">
+			    	<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="inputDokterfrm" class="com.kimia.farma.JAction.DokterJAction" method="initFrm" >
+			<result name="input">/pages/modul/dokter/input.jsp</result>
+			<result name="success">/pages/modul/dokter/input.jsp</result>
+			<result name="error">/pages/modul/dokter/input.jsp</result>
+		</action>
+		
+		<action name="simpanDokter" class="com.kimia.farma.JAction.DokterJAction" method="saveDokter">
+			    	<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="initUpdate" class="com.kimia.farma.JAction.DokterJAction" method="initUpdate">
+			    	<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="initUpdateFrm" class="com.kimia.farma.JAction.DokterJAction" method="getDokterWhere">
+			<result name="success">/pages/modul/dokter/edit.jsp</result>
+		</action>
+		<action name="update" class="com.kimia.farma.JAction.DokterJAction" method="update">
+			    	<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="delete" class="com.kimia.farma.JAction.DokterJAction" method="delete">
+			    	<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="pagging" class="com.kimia.farma.JAction.DokterJAction"
+			method="pagging">
+			    	<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/dokter/input.jsp</result>
+		</action>
+	</package>
+</struts>

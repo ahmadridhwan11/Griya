@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimia.farma.Interface.BarangMasukInterface">
+	<resultMap id="BaseResultMap" type="com.kimia.farma.model.BarangMasuk">
+		<id column="kd_masuk" property="kd_masuk" />
+		<result column="qty" property="qty" />
+		<result column="tgl_masuk" property="tgl_masuk" />
+		<result column="tgl_expired" property="tgl_expired" />
+		<result column="kd_supplier" property="supplier.kd_supplier" />
+		<result column="nama" property="supplier.nama" />
+		<result column="kd_obat" property="obat.kd_obat" />
+		<result column="nama_obat" property="obat.nama_obat" />
+		<result column="harga" property="obat.harga" />
+		<result column="stok" property="obat.stok" />
+		<result column="kd_user" property="user.kd_user" />
+	</resultMap>
+	<resultMap id="sup" type="com.kimia.farma.model.Supplier">
+		<id column="kd_supplier" property="kd_supplier" />
+		<result column="nama" property="nama" />
+	</resultMap>
+
+
+	<insert id="simpanBarangMasuk" parameterType="com.kimia.farma.model.BarangMasuk">
+		INSERT INTO barang_masuk( kd_masuk,
+		qty,
+		tgl_masuk,
+		tgl_expired,
+		kd_supplier,
+		kd_obat
+		) VALUES (#{kd_masuk},#{qty},
+		#{tgl_masuk},
+		#{tgl_expired},
+		#{supplier.kd_supplier},
+		#{obat.kd_obat}
+		)
+	</insert>
+
+	<update id="updateBarangMasuk" parameterType="com.kimia.farma.model.BarangMasuk">
+		UPDATE barang_masuk SET
+		kd_obat=#{obat.kd_obat},
+		qty=#{qty},
+		tgl_expired=#{tgl_expired},
+		kd_supplier=#{supplier.kd_supplier}
+		WHERE kd_masuk=#{kd_masuk}
+	</update>
+
+	<delete id="deleteBranagMasuk" parameterType="java.lang.String">
+		DELETE FROM barang_masuk WHERE
+		kd_masuk =#{kd_masuk}
+	</delete>
+	<select id="getSup"  resultMap="sup">
+		SELECT * from supplier
+	</select>
+	<select id="getAllBarangMasuk" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT b.kd_masuk,
+		b.qty,
+		b.tgl_masuk,
+		b.tgl_expired,
+		b.kd_user,
+		s.nama,
+		o.nama_obat,
+		o.harga
+		FROM barang_masuk b LEFT OUTER JOIN supplier s on(b.kd_supplier = s.kd_supplier) LEFT OUTER JOIN obat o on(b.kd_obat = o.kd_obat)
+		<if test="kd_masuk!=null">
+			WHERE b.kd_masuk like '%'|| #{kd_masuk} ||'%'
+		</if>
+	</select>
+	<select id="reportBarangMasuk" parameterType="com.kimia.farma.model.Reporting" resultMap="BaseResultMap">
+		SELECT b.kd_masuk,
+		b.qty,
+		b.tgl_masuk,
+		b.tgl_expired,
+		b.kd_user,
+		s.nama,
+		o.nama_obat,
+		o.harga
+		FROM barang_masuk b LEFT OUTER JOIN supplier s on(b.kd_supplier = s.kd_supplier) LEFT OUTER JOIN obat o on(b.kd_obat = o.kd_obat)
+		WHERE b.tgl_masuk between #{tgl_awal} AND #{tgl_akhir}
+		ORDER BY b.kd_masuk ASC
+	</select>
+	
+	
+	<select id="getBarangMasuk" parameterType="com.kimia.farma.model.BarangMasuk" resultMap="BaseResultMap">
+		SELECT b.kd_masuk,
+		b.qty,
+		b.tgl_masuk,
+		b.tgl_expired,
+		b.kd_supplier,
+		b.kd_obat,
+		b.kd_user,
+		s.nama,
+		o.nama_obat,
+		o.harga,
+		o.stok
+		FROM barang_masuk b LEFT OUTER JOIN supplier s on(b.kd_supplier = s.kd_supplier) LEFT OUTER JOIN obat o on(b.kd_obat = o.kd_obat)
+		<if test="kd_masuk!=null">
+			WHERE b.kd_masuk like '%'|| #{kd_masuk} ||'%'
+		</if>
+		ORDER BY b.kd_masuk DESC LIMIT 1
+	</select>
+	
+	<select id="getCountBM" resultType="int">
+		SELECT COUNT(*) FROM barang_masuk
+	</select>
+	
+</mapper>

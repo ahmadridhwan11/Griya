@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="dok_jas" extends="struts-default" namespace="/dok_jas">
+	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.kimia.farma.core.action.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	
+    	<global-results>
+			<result name="login" type="redirect">/pages/modul/user/Login.jsp</result>
+		</global-results>
+		<action name="inputJasa" class="com.kimia.farma.JAction.dokter.JasaJAction"
+			method="input">
+			<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/mainDokter.jsp</result>
+			<result name="success">/pages/modul/main/mainDokter.jsp</result>
+			<result name="error">/pages/modul/main/mainDokter.jsp</result>
+		</action>
+		<action name="inputJasafrm" class="com.kimia.farma.JAction.dokter.JasaJAction" method="initFrm" >
+			<result name="input">/pages/modul/C_Dokter/input_jasa.jsp</result>
+			<result name="success">/pages/modul/C_Dokter/input_jasa.jsp</result>
+			<result name="error">/pages/modul/C_Dokter/input_jasa.jsp</result>
+		</action>
+		
+		<action name="simpanJasa" class="com.kimia.farma.JAction.dokter.JasaJAction" method="saveJasa">
+		<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/mainDokter.jsp</result>
+			<result name="success">/pages/modul/main/mainDokter.jsp</result>
+			<result name="error">/pages/modul/main/mainDokter.jsp</result>
+		</action>
+		<action name="initUpdate" class="com.kimia.farma.JAction.dokter.JasaJAction" method="initUpdate">
+		<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/mainDokter.jsp</result>
+		</action>
+		<action name="initUpdateFrm" class="com.kimia.farma.JAction.dokter.JasaJAction" method="getJasaWhere">
+			<result name="success">/pages/modul/C_Dokter/update_jasa.jsp</result>
+		</action>
+		<action name="update" class="com.kimia.farma.JAction.dokter.JasaJAction" method="update">
+		<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/mainDokter.jsp</result>
+		</action>
+		<action name="delete" class="com.kimia.farma.JAction.dokter.JasaJAction" method="delete">
+		<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/mainDokter.jsp</result>
+		</action>
+		
+	</package>
+</struts>

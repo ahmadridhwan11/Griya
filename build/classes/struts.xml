@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.devMode" value="true"/>
+	<!-- <constant name="struts.i18.reload" value="false"/>
+	<constant name="struts.configuration.xml.reload" value="false"/> -->
+	<package name="kimiafarma" extends="struts-default" namespace="/">
+	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.kimia.farma.core.action.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	<global-results>
+			<result name="login">/pages/modul/user/Login.jsp</result>
+		</global-results>
+        <action name="login" method="Login" class="com.kimia.farma.JAction.UserJAction">
+    		<result name="input">/pages/modul/user/Login.jsp</result>
+    		<result name="ADMIN">/pages/modul/main/main.jsp</result>
+    		<result name="PASIEN">/pages/modul/main/mainPasien.jsp</result>
+    		<result name="DAFTAR">/pages/modul/daftar/input.jsp</result>
+    		<result name="DOKTER">/pages/modul/main/mainDokter.jsp</result>
+    		<result name="APOTEKER">/pages/modul/main/mainApoteker.jsp</result>
+    		<result name="error">/pages/modul/user/Login.jsp</result>
+    	</action>
+    	
+    	<action name="logout" method="LogOut" class="com.kimia.farma.JAction.UserJAction">
+    		<result name="input">/pages/modul/user/Login.jsp</result>
+    		<result name="success">/pages/modul/user/Login.jsp</result>
+    		<result name="error">/pages/modul/user/Login.jsp</result>
+    	</action>
+    	<action name="home">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/main/main.jsp</result>
+    		<result name="success">/pages/modul/main/main.jsp</result>
+    		<result name="error">/pages/modul/main/main.jsp</result>
+    	</action>
+    	<action name="" method="Login" class="com.kimia.farma.JAction.UserJAction">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/user/Login.jsp</result>
+    		<result name="ADMIN">/pages/modul/main/main.jsp</result>
+    		<result name="PASIEN">/pages/modul/main/mainPasien.jsp</result>
+    		<result name="DOKTER">/pages/modul/main/mainDokter.jsp</result>
+    		<result name="APOTEKER">/pages/modul/main/mainApoteker.jsp</result>
+    		<result name="error">/pages/modul/user/Login.jsp</result>
+    	</action>
+    	
+    	
+    	<action name="inputPasienfrm" class="com.kimia.farma.JAction.daftar.PassienJAction" method="initFrm" >
+			<result name="input">/pages/modul/daftar/input.jsp</result>
+			<result name="success">/pages/modul/daftar/input.jsp</result>
+			<result name="error">/pages/modul/daftar/input.jsp</result>
+		</action>
+		
+		<action name="simpanPasien" class="com.kimia.farma.JAction.daftar.PassienJAction" method="savePasien">
+			<result name="input">/pages/modul/daftar/input.jsp</result>
+			<result name="success">/pages/modul/daftar/berhasil.jsp</result>
+			<result name="error">/pages/modul/daftar/input.jsp</result>
+		</action>
+    	
+    </package>
+    	<include file="SAction/SActionObat.xml"></include>
+    	<include file="SAction/dokter/SActionObt.xml"></include>
+    	<include file="SAction/SActionDokter.xml"></include>
+    	<include file="SAction/dokter/SActionDrg.xml"></include>
+    	<include file="SAction/SActionBrgmasuk.xml"></include>
+    	<include file="SAction/SActionSupplier.xml"></include>
+    	<include file="SAction/SActionPassien.xml"></include>
+    	<include file="SAction/pasien/SActionPsn.xml"></include>
+    	<include file="SAction/SActionTransaksi.xml"></include>
+    	<include file="SAction/SActionJasa.xml"></include>
+    	<include file="SAction/dokter/SActionJs.xml"></include>
+    	<include file="SAction/SActionUser.xml"></include>
+    	<include file="SAction/SActionPengeluaran.xml"></include>
+</struts>

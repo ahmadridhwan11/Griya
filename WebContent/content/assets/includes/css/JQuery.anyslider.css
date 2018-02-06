@@ -1,0 +1,74 @@
+/* Bare minimum styles */
+.slider {
+    -ms-touch-action: pan-y; /* Prevent default touch actions on Windows 8. Only required for IE10 */
+    overflow: auto; /* Not required but recommended for accessibility when JavaScript is turned off */
+    position: relative;
+    touch-action: pan-y; /* Prevent default touch actions on Windows 8. Supported in IE11+ */
+}
+
+/* AnySlider can be styled to your liking. This is just example styles */
+.slider {
+    border: 1px dotted #333;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* The arrows can of course also be styled to your liking. This is just example styles */
+.as-prev-arrow, .as-next-arrow {
+    cursor: pointer;
+    
+	filter: alpha(opacity=15);
+	opacity: 15;
+    
+	height: 32px;
+    width: 32px;
+	
+	overflow: hidden;
+    position: absolute;
+    text-indent: 100%;
+    top: calc(50% - 16px);
+    white-space: nowrap;
+    z-index: 2003;
+}
+
+.as-prev-arrow {
+    background: url(../../images/anyslider/arr-prev.png) no-repeat;
+	left: 20px;
+}
+
+.as-next-arrow {
+    background: url(../../images/anyslider/arr-next.png) no-repeat;
+    right: 20px;
+}
+
+.slider:hover .as-prev-arrow, .slider:hover .as-next-arrow {
+    filter: alpha(opacity=1);
+    opacity: 1;
+}
+
+/* The same rules for styling apply here. Style to your liking */
+.as-nav {
+    bottom: 20px !important;
+    left: 50%;
+    margin-left: -27px;
+    position: absolute;
+    text-align: left;
+    z-index: 3000;
+}
+
+.as-nav a {
+    background: url(../../images/anyslider/bullets.png) no-repeat;
+    height: 16px;
+    display: inline-block;
+    margin: 0 1px;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    width: 16px;
+}
+
+a.as-active, .as-nav a:hover {
+    background-position: 0 -16px;
+}

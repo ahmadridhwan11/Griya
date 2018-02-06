@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimia.farma.Interface.DashBoardInterface">
+	<select id="getjmlTran" parameterType="com.kimia.farma.model.Reporting" resultType="java.lang.Integer">
+		SELECT
+		COUNT(kd_transaksi) FROM transaksi
+		 WHERE tgl_transaksi BETWEEN #{tgl_awal} AND #{tgl_akhir}
+	</select>
+	<select id="getjmlBm" parameterType="com.kimia.farma.model.Reporting" resultType="java.lang.Integer">
+		SELECT
+		SUM(qty) AS qty FROM barang_masuk
+		 WHERE tgl_masuk BETWEEN #{tgl_awal} AND #{tgl_akhir}
+	</select>
+	
+	<select id="getJmlTranObt" parameterType="com.kimia.farma.model.Reporting" resultType="java.lang.Integer">
+		SELECT
+		SUM(td.jml) AS tob
+		FROM transaksi t JOIN transaksi_detail td ON(t.kd_transaksi = td.kd_transaksi)
+		WHERE t.tgl_transaksi BETWEEN #{tgl_awal} AND #{tgl_akhir}
+	</select>
+	
+	<select id="getPendapatan" parameterType="com.kimia.farma.model.Reporting" resultType="java.lang.Double">
+		SELECT
+		SUM(sub_total) AS tob
+		FROM transaksi t JOIN transaksi_detail td ON(t.kd_transaksi = td.kd_transaksi)
+		WHERE t.tgl_transaksi BETWEEN #{tgl_awal} AND #{tgl_akhir}
+	</select>
+	
+	
+	
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimia.farma.Interface.DokterInterface">
+	<resultMap id="BaseResultMap" type="com.kimia.farma.model.Dokter">
+		<id column="kd_dokter" property="kd_dokter" />
+		<result column="spesialis" property="spesialis" />
+		<result column="nama" property="nama" />
+		<result column="kelamin" property="kelamin" />
+		<result column="alamat" property="alamat" />
+		<result column="nomer_tlp" property="nomer_tlp" />
+		<result column="tgl_lahir" property="tgl_lahir" />
+		<result column="status_perkawinan" property="status_perkawinan" />
+	</resultMap>
+
+	<insert id="Insert" parameterType="com.kimia.farma.model.Dokter">
+		INSERT INTO dokter (kd_dokter,spesialis,nama,kelamin,alamat,nomer_tlp,tgl_lahir,status_perkawinan) 
+		VALUES(#{kd_dokter},#{spesialis},#{nama},#{kelamin},#{alamat},#{nomer_tlp},#{tgl_lahir},#{status_perkawinan})
+	</insert>
+
+	<update id="Update" parameterType="com.kimia.farma.model.Dokter">
+		UPDATE dokter SET kd_dokter = #{kd_dokter},spesialis = #{spesialis},nama = #{nama},kelamin = #{kelamin},alamat = #{alamat},
+		nomer_tlp =#{nomer_tlp},
+		tgl_lahir = #{tgl_lahir},
+		status_perkawinan= #{status_perkawinan} WHERE kd_dokter=#{kd_dokter}
+	</update>
+
+	<delete id="Delete" parameterType="java.lang.String">
+		DELETE FROM dokter WHERE
+		kd_dokter= #{kd_dokter}
+	</delete>
+
+
+	<select id="getDokter" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT kd_dokter,
+		spesialis,
+		nama ,
+		kelamin,
+		alamat,
+		nomer_tlp,
+		tgl_lahir,
+		status_perkawinan 
+		FROM dokter
+		<if test="kd_dokter!=null">
+			WHERE kd_dokter= #{kd_dokter}
+		</if>
+	</select>
+	<select id="getDokterWhere" parameterType="com.kimia.farma.model.Dokter"
+		resultMap="BaseResultMap">
+		SELECT kd_dokter,
+		spesialis,
+		nama ,
+		kelamin,
+		alamat,
+		nomer_tlp,
+		tgl_lahir,
+		status_perkawinan
+		FROM dokter
+		<if test="kd_dokter!=null">
+			WHERE kd_dokter= #{kd_dokter}
+		</if>
+		</select>
+		
+		<select id="getCount" resultType="int">
+		SELECT COUNT(kd_dokter)
+		FROM dokter
+		</select>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimia.farma.Interface.PengeluaranInterface">
+	<resultMap id="BaseResultMap" type="com.kimia.farma.model.Pengeluaran">
+		<id column="kd_pengeluaran" property="kd_pengeluaran" />
+		<result column="detail" property="detail" />
+		<result column="total" property="total" />
+		<result column="tgl" property="tgl" />
+	</resultMap>
+	<insert id="insert" parameterType="com.kimia.farma.model.Pengeluaran">
+		INSERT INTO pengeluaran( 
+		kd_pengeluaran,
+		detail,
+		total,
+		tgl
+		) VALUES (
+		#{kd_pengeluaran},
+		#{detail},
+		#{total},
+		#{tgl}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.kimia.farma.model.Pengeluaran">
+		UPDATE pengeluaran SET
+		detail=#{detail},
+		total=#{total},
+		tgl=#{tgl}
+		WHERE kd_pengeluaran=#{kd_pengeluaran}
+	</update>
+
+	<delete id="DeletePengeluaran" parameterType="java.lang.String">
+		DELETE FROM pengeluaran WHERE
+		kd_pengeluaran =#{kd_pengeluaran}
+	</delete>
+	
+	<select id="getAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT kd_pengeluaran,
+		detail,
+		total,
+		tgl
+		FROM pengeluaran
+		<if test="kd_masuk!=null">
+			WHERE kd_pengeluaran like '%'|| #{kd_pengeluaran} ||'%'
+		</if>
+		ORDER BY tgl ASC
+	</select>
+	
+	
+	
+	<select id="getOne" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT kd_pengeluaran,
+		detail,
+		total,
+		tgl
+		FROM pengeluaran
+		<if test="kd_masuk!=null">
+			WHERE kd_pengeluaran like '%'|| #{kd_pengeluaran} ||'%'
+		</if>
+		ORDER BY tgl ASC
+	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*) FROM pengeluaran
+	</select>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="Clien_psn" extends="struts-default" namespace="/c_pasien">
+	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.kimia.farma.core.action.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	
+    	<global-results>
+			<result name="login">/pages/modul/user/Login.jsp</result>
+		</global-results>
+		<action name="inputPasienp" class="com.kimia.farma.JAction.pasien.PassienJAction"
+			method="input">
+			<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/mainPasien.jsp</result>
+			<result name="success">/pages/modul/main/mainPasien.jsp</result>
+			<result name="error">/pages/modul/main/mainPasien.jsp</result>
+		</action>
+		<action name="inputPasienfrmp" class="com.kimia.farma.JAction.pasien.PassienJAction" method="initFrm" >
+			<result name="input">/pages/modul/C_Pasien/input.jsp</result>
+			<result name="success">/pages/modul/C_Pasien/input.jsp</result>
+			<result name="error">/pages/modul/C_Pasien/input.jsp</result>
+		</action>
+	
+		<action name="initUpdatep" class="com.kimia.farma.JAction.pasien.PassienJAction" method="initUpdate">
+		<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/mainPasien.jsp</result>
+		</action>
+		<action name="initUpdateFrmp" class="com.kimia.farma.JAction.pasien.PassienJAction" method="getPasienWhere">
+			<result name="success">/pages/modul/C_Pasien/edit.jsp</result>
+		</action>
+		<action name="updatep" class="com.kimia.farma.JAction.pasien.PassienJAction" method="update">
+		<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/mainPasien.jsp</result>
+			<result name="success">/pages/modul/main/mainPasien.jsp</result>
+			<result name="error">/pages/modul/main/mainPasien.jsp</result>
+		</action>
+		
+		
+	</package>
+</struts>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="pengeluaran" extends="struts-default" namespace="/pengeluaran">
+	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.kimia.farma.core.action.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	
+    	<global-results>
+			<result name="login">/pages/modul/user/Login.jsp</result>
+		</global-results>
+	
+		<action name="inputPengeluaran" class="com.kimia.farma.JAction.PengeluaranJAction"
+			method="input">
+			<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="inputPengeluaranFrm" class="com.kimia.farma.JAction.PengeluaranJAction" method="initFrm" >
+			<result name="input">/pages/modul/pengeluaran/frm_pengeluaran.jsp</result>
+			<result name="success">/pages/modul/pengeluaran/frm_pengeluaran.jsp</result>
+			<result name="error">/pages/modul/pengeluaran/frm_pengeluaran.jsp</result>
+		</action>
+		
+		<action name="simpanPengeluaran" class="com.kimia.farma.JAction.PengeluaranJAction" method="savePengeluaran">
+			<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		
+		
+		<action name="initUpdate" class="com.kimia.farma.JAction.PengeluaranJAction" method="initUpdate">
+			<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="initUpdateFrm" class="com.kimia.farma.JAction.PengeluaranJAction" method="getPengeluaranWhere">
+			<result name="success">/pages/modul/pengeluaran/edit.jsp</result>
+		</action>
+		<action name="update" class="com.kimia.farma.JAction.PengeluaranJAction" method="update">
+			<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="delete" class="com.kimia.farma.JAction.ObatJAction" method="delete">
+			<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/main.jsp</result>
+		</action>
+		
+	</package>
+</struts>

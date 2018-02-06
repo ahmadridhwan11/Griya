@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="drg_obat" extends="struts-default" namespace="/drg_obt">
+	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.kimia.farma.core.action.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	
+    	<global-results>
+			<result name="login">/pages/modul/user/Login.jsp</result>
+		</global-results>
+	
+		<action name="inputObat" class="com.kimia.farma.JAction.dokter.ObatJAction"
+			method="input">
+			<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/mainDokter.jsp</result>
+			<result name="success">/pages/modul/main/mainDokter.jsp</result>
+			<result name="error">/pages/modul/main/mainDokter.jsp</result>
+		</action>
+		<action name="inputObatfrm" class="com.kimia.farma.JAction.dokter.ObatJAction" method="initFrm" >
+			<result name="input">/pages/modul/C_Dokter/view_obat.jsp</result>
+			<result name="success">/pages/modul/C_Dokter/view_obat.jsp</result>
+			<result name="error">/pages/modul/C_Dokter/view_obat.jsp</result>
+		</action>
+		
+	
+	
+	
+	
+	
+		
+	</package>
+</struts>

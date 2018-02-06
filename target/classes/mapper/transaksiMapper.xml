@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kimia.farma.Interface.TransaksiInterface">
+	<resultMap type="com.kimia.farma.model.Dokter" id="DM">
+		<id column="kd_dokter" property="kd_dokter" />
+		<result column="spesialis" property="spesialis" />
+		<result column="nama" property="nama" />
+	</resultMap>
+	<resultMap type="com.kimia.farma.model.Jasa" id="JM">
+		<id column="kd_jasa" property="kd_jasa" />
+		<result column="harga" property="harga" />
+		<result column="nama_jasa" property="nama" />
+		<result column="persen" property="persen" />
+		<result column="fee" property="fee" />
+		<association property="dokter" resultMap="DM" />
+	</resultMap>
+	<resultMap type="com.kimia.farma.model.ReportDokter" id="reportDokter2">
+		<id column="jml" property="jml" />
+		<result column="gaji" property="gaji" />
+		<result column="sub_total" property="sub_total" />
+		<association property="jasa" resultMap="JM" />
+	</resultMap>
+
+
+
+
+	<resultMap type="com.kimia.farma.model.ReportTM" id="laporanMT">
+		<result column="stok_awal" property="stok_awal" />
+		<result column="countDsc" property="countDsc" />
+		<result column="terjual" property="terjual" />
+		<result column="total" property="total" />
+		<association property="obat" resultMap="resultO" />
+	</resultMap>
+
+	<resultMap type="com.kimia.farma.model.Transaksi_detail" id="td2">
+		<result column="sub_total" property="sub_total" />
+		<result column="jml_beli" property="jml_beli" />
+		<result column="dsc_obat" property="dsc_obat" />
+		<association property="obat" resultMap="resultO" />
+		<association property="jasa" resultMap="resultJ" />
+	</resultMap>
+
+	<resultMap type="com.kimia.farma.model.Passien" id="resultP">
+		<id column="kd_passien" property="kd_passien" />
+		<result column="p_nama" property="nama" />
+		<result column="p_kelamin" property="kelamin" />
+		<result column="p_alamat" property="alamat" />
+		<result column="p_tlp" property="nomer_tlp" />
+		<result column="p_lahir" property="tgl_lahir" />
+		<result column="p_p" property="status_perkawinan" />
+	</resultMap>
+	<resultMap type="com.kimia.farma.model.User" id="resultU">
+		<id column="kd_user" property="kd_user" />
+		<result column="u_nama" property="nama" />
+	</resultMap>
+
+	<resultMap type="com.kimia.farma.model.Obat" id="resultO">
+		<id column="kd_obat" property="kd_obat" />
+		<result column="nama_obat" property="nama_obat" />
+		<result column="stok" property="stok" />
+		<result column="merk" property="merk" />
+		<result column="jenis" property="jenis" />
+		<result column="type" property="type" />
+		<result column="harga" property="harga" />
+	</resultMap>
+
+	<resultMap type="com.kimia.farma.model.Dokter" id="resultD">
+		<id column="kd_dokter" property="kd_dokter" />
+		<result column="spesialis" property="spesialis" />
+		<result column="nama" property="nama" />
+	</resultMap>
+
+	<resultMap type="com.kimia.farma.model.Jasa" id="resultJ">
+		<id column="kd_jasa" property="kd_jasa" />
+		<result column="j_harga" property="harga" />
+		<result column="j_nama" property="nama" />
+		<association property="dokter" resultMap="resultD" />
+	</resultMap>
+
+	<resultMap type="com.kimia.farma.model.Transaksi" id="BaseResultMap">
+		<id column="kd_transaksi" property="kd_transaksi" />
+		<result column="total" property="total" />
+		<result column="tgl_transaksi" property="tgl_transaksi" />
+		<result column="uang" property="uang" />
+		<result column="dsc" property="dsc" />
+		<association property="passien" resultMap="resultP" />
+		<association property="user" resultMap="resultU" />
+		<collection property="transaksi_detail" resultMap="td2" />
+	</resultMap>
+
+	<resultMap type="com.kimia.farma.model.Transaksi" id="BaseResultMap2">
+		<result column="total" property="dsc" />
+		<result column="tgl_transaksi" property="tgl_transaksi" />
+		<result column="uang" property="uang" />
+
+	</resultMap>
+
+
+
+
+	<insert id="saveTransaksi" parameterType="com.kimia.farma.model.Transaksi">
+		INSERT INTO transaksi(
+		kd_transaksi,
+		tgl_transaksi,
+		kd_user,
+		kd_passien,
+		total,
+		uang,
+		dsc
+		) VALUES (
+		#{kd_transaksi},
+		#{tgl_transaksi},
+		#{user.kd_user},
+		#{passien.kd_passien},
+		#{total},
+		#{uang},
+		#{dsc}
+		)
+	</insert>
+	<insert id="saveTransaksiDetail" parameterType="com.kimia.farma.model.Transaksi">
+		INSERT INTO transaksi_detail(
+		kd_transaksi,
+		kd_obat,
+		jml,
+		dsc_obat,
+		kd_jasa,
+		sub_total
+		) VALUES
+		<foreach item="item" collection="transaksi_detail" separator=",">
+			(
+			#{kd_transaksi},
+			#{item.obat.kd_obat},
+			#{item.jml_beli},
+			#{item.dsc_obat},
+			#{item.jasa.kd_jasa},
+			#{item.sub_total}
+			)
+		</foreach>
+
+	</insert>
+
+	<update id="updateTransaksi" parameterType="com.kimia.farma.model.Transaksi">
+		UPDATE transaksi SET
+		tgl_transaksi=#{tgl_transaksi},
+		kd_passien=#{passien.kd_passien},
+		kd_dokterr=#{dokter.kd_dokter}
+		WHERE kd_transaksi=#{kd_transaksi}
+	</update>
+	<update id="updateDetailTransaksi" parameterType="com.kimia.farma.model.Transaksi">
+		UPDATE
+		transaksi_detail SET
+		kd_obat=#{obat.kd_obat},
+		jml=#{obat.jml}
+		kd_jasa=#{jasa.kd_jasa}
+		WHERE kd_transaksi=#{kd_transaksi}
+	</update>
+	<select id="getTransaksiDetail" parameterType="com.kimia.farma.model.Transaksi"
+		resultMap="BaseResultMap">
+		SELECT t.kd_transaksi,
+		t.tgl_transaksi,
+		t.uang,
+		t.total,
+		t.dsc,
+		p.kd_passien,
+		p.nama AS p_nama,
+		p.kelamin AS p_kelamin,
+		p.alamat AS
+		p_alamat,
+		p.nomer_tlp AS p_tlp,
+		p.tgl_lahir AS p_lahir,
+		p.status_perkawinan AS p_p,
+		o.kd_obat,
+		o.nama_obat,
+		o.stok,
+		td.jml AS
+		jml_beli,
+		td.dsc_obat AS dsc_obat,
+		td.sub_total,
+		o.merk,
+		o.jenis,
+		o.type,
+		o.harga,
+		d.kd_dokter,
+		d.spesialis,
+		d.nama,
+		j.kd_jasa,
+		j.nama AS j_nama,
+		j.harga AS j_harga
+		FROM
+		transaksi t LEFT OUTER JOIN transaksi_detail td
+		on(t.kd_transaksi =
+		td.kd_transaksi)
+		LEFT OUTER JOIN obat o on(o.kd_obat
+		= td.kd_obat)
+		LEFT
+		OUTER JOIN jasa j on(j.kd_jasa = td.kd_jasa)
+		LEFT
+		OUTER JOIN dokter d
+		on(d.kd_dokter = j.kd_dokter)
+		LEFT OUTER JOIN
+		passien p on(p.kd_passien
+		= t.kd_passien)
+		<if test="kd_transaksi!=null">
+			WHERE t.kd_transaksi like '%'|| #{kd_transaksi} ||'%'
+		</if>
+		ORDER BY td.kd_transaksi
+	</select>
+
+	<select id="getTransaksiAll" parameterType="com.kimia.farma.model.Transaksi"
+		resultMap="BaseResultMap">
+		SELECT t.kd_transaksi,
+		t.tgl_transaksi,
+		t.uang,
+		t.total,
+		p.kd_passien,
+		p.nama AS p_nama,
+		p.kelamin AS p_kelamin,
+		p.alamat AS p_alamat,
+		p.nomer_tlp AS p_tlp,
+		p.tgl_lahir AS p_lahir,
+		p.status_perkawinan AS
+		p_p,
+		o.kd_obat,
+		o.nama_obat,
+		o.stok,
+		td.jml AS jml_beli,
+		td.dsc_obat AS
+		dsc_obat,
+		td.sub_total,
+		o.merk,
+		o.jenis,
+		o.type,
+		o.harga,
+		d.kd_dokter,
+		d.spesialis,
+		d.nama,
+		j.kd_jasa,
+		j.nama AS j_nama,
+		j.harga AS j_harga
+		FROM
+		transaksi t LEFT
+		OUTER JOIN transaksi_detail td on(t.kd_transaksi =
+		td.kd_transaksi)
+		LEFT OUTER JOIN obat o on(o.kd_obat = td.kd_obat)
+		LEFT
+		OUTER JOIN jasa
+		j on(j.kd_jasa = td.kd_jasa)
+		LEFT OUTER JOIN dokter d
+		on(d.kd_dokter =
+		j.kd_dokter)
+		LEFT OUTER JOIN passien p on(p.kd_passien
+		= t.kd_passien)
+		<if test="kd_transaksi!=null">
+			WHERE t.kd_transaksi like '%'|| #{kd_transaksi} ||'%'
+		</if>
+	</select>
+
+	<select id="reporting" parameterType="com.kimia.farma.model.Reporting"
+		resultMap="BaseResultMap">
+		SELECT t.kd_transaksi,
+		t.tgl_transaksi,
+		t.uang,
+		t.total,
+		p.kd_passien,
+		p.nama AS p_nama,
+		p.kelamin AS p_kelamin,
+		p.alamat AS
+		p_alamat,
+		p.nomer_tlp AS p_tlp,
+		p.tgl_lahir AS p_lahir,
+		p.status_perkawinan AS p_p,
+		o.kd_obat,
+		o.nama_obat,
+		o.stok,
+		td.jml AS
+		jml_beli,
+		td.dsc_obat AS dsc_obat,
+		td.sub_total,
+		o.merk,
+		o.jenis,
+		o.type,
+		o.harga,
+		d.kd_dokter,
+		d.spesialis,
+		d.nama,
+		j.kd_jasa,
+		j.nama AS j_nama,
+		j.harga AS j_harga,
+		u.kd_user,
+		u.nama AS u_nama
+		FROM transaksi t LEFT
+		OUTER JOIN
+		transaksi_detail td on(t.kd_transaksi = td.kd_transaksi)
+		LEFT OUTER
+		JOIN obat o on(o.kd_obat = td.kd_obat)
+		LEFT OUTER JOIN jasa j
+		on(j.kd_jasa = td.kd_jasa)
+		LEFT OUTER JOIN dokter d
+		on(d.kd_dokter =
+		j.kd_dokter)
+		LEFT OUTER JOIN passien p on(p.kd_passien = t.kd_passien)
+		LEFT OUTER JOIN
+		user13 u on(u.kd_user = t.kd_user)
+		WHERE t.tgl_transaksi
+		between
+		#{tgl_awal} AND #{tgl_akhir}
+		ORDER BY td.kd_transaksi ASC
+
+	</select>
+	<select id="getTransaksiHistory" parameterType="com.kimia.farma.model.Transaksi"
+		resultMap="BaseResultMap">
+		SELECT t.kd_transaksi,
+		t.tgl_transaksi,
+		t.uang,
+		t.total,
+		p.kd_passien,
+		p.nama AS p_nama
+		FROM transaksi t LEFT OUTER JOIN passien p
+		on(p.kd_passien = t.kd_passien)
+
+		<if test="kd_transaksi!=null">
+			WHERE t.kd_transaksi like '%'|| #{kd_transaksi} ||'%'
+		</if>
+		ORDER BY t.kd_transaksi DESC
+	</select>
+
+
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*) FROM transaksi
+	</select>
+
+
+	<select id="laporanMT" parameterType="com.kimia.farma.model.Reporting"
+		resultMap="laporanMT">
+		SELECT
+		o.kd_obat,
+		o.nama_obat,
+		SUM(o.stok) AS stok,
+		SUM(td.jml)
+		AS jml_beli,
+		SUM(td.sub_total) AS sub_total,
+		o.merk,
+		o.jenis,
+		o.type,
+		o.harga,
+		(SUM(td.jml)+SUM(o.stok)) AS
+		stok_awal ,
+		COUNT(td.dsc_obat) AS
+		countDsc,
+		SUM(td.jml) AS terjual,
+		(SUM(td.jml)*o.harga) AS total
+		FROM
+		transaksi_detail td
+		LEFT JOIN transaksi t
+		ON(t.kd_transaksi=td.kd_transaksi)
+		JOIN obat o ON(o.kd_obat =
+		td.kd_obat)
+		WHERE t.tgl_transaksi BETWEEN #{tgl_awal} AND #{tgl_akhir}
+		GROUP BY
+		o.kd_obat
+	</select>
+
+	<select id="getKikiReport" parameterType="com.kimia.farma.model.Reporting"
+		resultMap="BaseResultMap2">
+		SELECT t.tgl_transaksi AS tgl_transaksi,
+		COUNT(t.kd_transaksi) AS total, SUM(t.total) AS uang
+		FROM transaksi t
+		WHERE t.tgl_transaksi BETWEEN #{tgl_awal} AND
+		#{tgl_akhir} GROUP BY
+		t.tgl_transaksi;
+	</select>
+
+
+	<select id="reportDokter22" parameterType="com.kimia.farma.model.Reporting"
+		resultMap="reportDokter2">
+		SELECT COUNT(td.kd_jasa) AS jml,
+		SUM(j.fee) AS gaji,
+		SUM(j.harga) AS sub_total,
+		td.kd_jasa AS kd_jasa,
+		j.nama AS nama_jasa,
+		j.harga AS harga,
+		j.persen AS persen,
+		j.fee AS fee,
+		d.kd_dokter AS kd_dokter,
+		d.nama AS nama,
+		d.spesialis AS spesialis
+		FROM
+		transaksi_detail td LEFT JOIN jasa j ON(td.kd_jasa = j.kd_jasa)
+		LEFT OUTER JOIN dokter d ON(j.kd_dokter = d.kd_dokter)
+		LEFT OUTER JOIN transaksi t ON(td.kd_transaksi = t.kd_transaksi)
+		WHERE t.tgl_transaksi BETWEEN #{tgl_awal} AND #{tgl_akhir}
+		AND td.kd_jasa !=''
+		AND d.kd_dokter=#{table}
+		GROUP BY td.kd_jasa,
+		j.nama,
+		j.harga,
+		d.kd_dokter,
+		d.nama,
+		d.spesialis,
+		j.persen,
+		j.fee;
+	</select>
+
+
+</mapper>

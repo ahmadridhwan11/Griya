@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="transaksi" extends="struts-default,json-default" namespace="/trans">
+	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.kimia.farma.core.action.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	
+    	<global-results>
+			<result name="login">/pages/modul/user/Login.jsp</result>
+		</global-results>
+		<action name="ajaxObat" class="com.kimia.farma.JAction.TransaksiJAction" method="ajaxObat" >
+			<result type="json">
+                <param name="noCache">true</param>
+		        <param name="root">transaksi</param>
+    		</result>
+		</action>
+		<action name="inputTrans" class="com.kimia.farma.JAction.TransaksiJAction"
+			method="input">
+			<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="history" class="com.kimia.farma.JAction.TransaksiJAction"
+			method="history">
+			<result name="input">/pages/modul/pembayaran/history.jsp</result>
+			<result name="success">/pages/modul/pembayaran/history.jsp</result>
+			<result name="error">/pages/modul/pembayaran/history.jsp</result>
+		</action>
+		<action name="laporan" class="com.kimia.farma.JAction.TransaksiJAction"
+			method="initLaporan">
+			<result name="input">/pages/modul/report/Laporan.jsp</result>
+			<result name="success">/pages/modul/report/Laporan.jsp</result>
+			<result name="error">/pages/modul/report/Laporan.jsp</result>
+		</action>
+		<action name="hisDetail" class="com.kimia.farma.JAction.TransaksiJAction"
+			method="detailHistory">
+			<result name="input">/pages/modul/pembayaran/hisDetail.jsp</result>
+			<result name="success">/pages/modul/pembayaran/hisDetail.jsp</result>
+			<result name="error">/pages/modul/pembayaran/hisDetail.jsp</result>
+		</action>
+		
+		<action name="inputTRfrm" class="com.kimia.farma.JAction.TransaksiJAction" method="initFrm" >
+			<result name="input" >/pages/modul/pembayaran/input.jsp</result>
+			<result name="success" >/pages/modul/pembayaran/input.jsp</result>
+			<result name="error">/pages/modul/pembayaran/input.jsp</result>
+		</action>
+		
+		<action name="print" class="com.kimia.farma.JAction.TransaksiJAction" method="print">
+		<interceptor-ref name="authStack"/>
+ 				<result name="success" type="stream">
+	 				 <param name="inputName">inputStream</param>
+	 				 <param name="contentType">application/pdf</param>
+	 				 <param name="contentDisposition">attachment;filename="${namaFile}"</param>
+	 				 <param name="bufferSize">1024</param>	
+        		</result>
+        		<result name="error">/pages/modul/pembayaran/history.jsp</result>
+        </action>
+        
+        <action name="reporting" class="com.kimia.farma.JAction.TransaksiJAction" method="reporting1">
+		<interceptor-ref name="authStack"/>
+			<result name="success" type="stream">
+	 				 <param name="inputName">inputStream</param>
+	 				 <param name="contentType">application/pdf</param>
+	 				 <param name="contentDisposition">attachment;filename="${namaFile}"</param>
+	 				 <param name="bufferSize">1024</param>	
+        		</result>
+        		<result name="error">/pages/modul/main/main.jsp</result>
+        		<!-- <result name="input" type="stream">
+	 				 <param name="inputName">inputStream</param>
+	 				 <param name="contentType">application/pdf</param>
+	 				 <param name="contentDisposition">attachment;filename="${namaFile}"</param>
+	 				 <param name="bufferSize">1024</param>	
+        		</result> --> 
+        	
+        </action>
+        
+		<action name="simpanTR" class="com.kimia.farma.JAction.TransaksiJAction" method="saveTR">
+		<interceptor-ref name="authStack"/>
+		
+ 				<result name="success" type="stream">
+	 				 <param name="inputName">inputStream</param>
+	 				 <param name="contentType">application/pdf</param>
+	 				 <param name="contentDisposition">attachment;filename="${namaFile}"</param>
+	 				 <param name="bufferSize">1024</param>	
+        		</result>
+        			<result name="input">/pages/modul/main/main.jsp</result>	
+ 					<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		
+		<action name="initUpdate" class="com.kimia.farma.JAction.TransaksiJAction" method="initUpdate">
+		<interceptor-ref name="authStack"/>
+			<result name="success">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="initUpdateFrm" class="com.kimia.farma.JAction.TransaksiJAction" method="getTrWhere">
+			<result name="success">/pages/modul/transaksi/edit.jsp</result>
+		</action>
+		
+		<action name="update" class="com.kimia.farma.JAction.TransaksiJAction" method="update" >
+		<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="pagging" class="com.kimia.farma.JAction.TransaksiJAction"
+			method="pagging">
+			<interceptor-ref name="authStack"/>
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/pembayaran/history.jsp</result>
+		</action>
+	</package>
+</struts>

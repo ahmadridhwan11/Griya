@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimia.farma.Interface.UserInterface">
+	<resultMap id="BaseResultMap" type="com.kimia.farma.model.User">
+		<id column="kd_user" property="kd_user" />
+		<result column="nama" property="nama" />
+		<result column="password" property="password" />
+		 <result column="kelamin" property="kelamin" />
+		<result column="alamat" property="alamat" />
+		<result column="nomer_tlp" property="nomer_tlp" />
+		<result column="tgl_lahir" property="tgl_lahir" />
+		<result column="tgl_lahir" property="tgl_lahir" />
+		<result column="level" property="level" />
+	</resultMap>
+	
+
+	<select id="Login" parameterType="com.kimia.farma.model.User" resultMap="BaseResultMap">
+		SELECT * FROM user13 WHERE kd_user=#{kd_user} AND password = #{password} AND level = #{level}
+	</select>
+
+	<update id="UpdateUser" parameterType="com.kimia.farma.model.User">
+		UPDATE user13 SET password=#{password} ,nama=#{nama},kelamin=#{kelamin},alamat=#{alamat},nomer_tlp=#{nomer_tlp},tgl_lahir=#{tgl_lahir}
+		WHERE kd_user=#{kd_user}
+	</update>
+
+	<delete id="DeleteUser" parameterType="java.lang.String">
+		DELETE FROM user13 WHERE
+		kd_user =#{kd_user}
+	</delete>
+
+	
+	<select id="getUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT * FROM user13
+		<if test="kd_user!=null">
+			WHERE kd_user=#{kd_user}
+		</if>
+	</select>
+	<select id="insertUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+		INSERT INTO user13 (kd_user,password,nama,kelamin,alamat,nomer_tlp,tgl_lahir,level)
+							VALUES(#{kd_user},#{password},#{nama},#{kelamin},#{alamat},#{nomer_tlp},#{tgl_lahir},#{level})
+		
+	</select>
+	
+</mapper>

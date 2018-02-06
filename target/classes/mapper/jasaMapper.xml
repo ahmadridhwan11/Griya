@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimia.farma.Interface.JasaInterface">
+	<resultMap id="jasaMap" type="com.kimia.farma.model.Jasa">
+		<id column="kd_jasa" property="kd_jasa"/>
+		<result column="nama_jasa" property="nama" />
+		<result column="harga" property="harga" />
+		<result column="persen" property="persen" />
+		<result column="fee" property="fee" />
+		<association property="dokter" resultMap="dokMap"/>
+	</resultMap>
+	<resultMap id="dokMap" type="com.kimia.farma.model.Dokter">
+		<id column="kd_dokter" property="kd_dokter" />
+		<result column="spesialis" property="spesialis" />
+		<result column="nama" property="nama" />
+	</resultMap>
+
+	<insert id="InsertJasa" parameterType="com.kimia.farma.model.Jasa">
+		INSERT INTO jasa (kd_jasa,nama,harga,kd_dokter,persen,fee) 
+		VALUES(#{kd_jasa},#{nama},#{harga},#{dokter.kd_dokter},#{persen},#{fee})
+	</insert>
+
+	<update id="UpdateJasa" parameterType="com.kimia.farma.model.Jasa">
+		UPDATE jasa SET kd_dokter = #{dokter.kd_dokter},nama = #{nama},harga = #{harga} ,persen=#{persen},fee=#{fee} WHERE kd_jasa=#{kd_jasa}
+	</update>
+
+	<delete id="DeleteJasa" parameterType="java.lang.String">
+		DELETE FROM jasa WHERE
+		kd_jasa= #{kd_jasa}
+	</delete>
+	<delete id="DeleteJasaByDokter" parameterType="java.lang.String">
+		DELETE FROM jasa WHERE
+		kd_dokter= #{dokter.kd_dokter}
+	</delete>
+
+
+	<select id="getOneJasa" parameterType="java.lang.String"
+		resultMap="jasaMap">
+		SELECT j.kd_jasa,j.nama AS nama_jasa,j.harga,d.kd_dokter,j.persen,j.fee,
+		d.spesialis,
+		d.nama 
+		FROM jasa j LEFT OUTER JOIN dokter d on(j.kd_dokter = d.kd_dokter)
+		<if test="kd_jasa!=null">
+			WHERE j.kd_jasa= #{kd_jasa}
+		</if>
+		ORDER BY j.kd_jasa DESC LIMIT 1
+	</select>
+	
+	<select id="getOnemyJasa" parameterType="java.lang.String"
+		resultMap="jasaMap">
+		SELECT j.kd_jasa,j.nama AS nama_jasa,j.harga ,j.persen,j.fee
+		FROM jasa j
+			WHERE j.kd_dokter= #{kd_jasa}
+		ORDER BY j.kd_jasa DESC LIMIT 1
+	</select>
+	
+	<select id="getAllmyJasa" parameterType="java.lang.String"
+		resultMap="jasaMap">
+		SELECT j.kd_jasa,j.nama AS nama_jasa,j.harga,j.persen,j.fee
+		FROM jasa j
+		WHERE j.kd_dokter= #{kd_jasa}
+		ORDER BY j.kd_jasa
+		</select>
+		
+		<select id="getAllJasa" parameterType="java.lang.String"
+		resultMap="jasaMap">
+		SELECT j.kd_jasa,j.nama AS nama_jasa,j.harga,d.kd_dokter,j.persen,j.fee,
+		d.spesialis,
+		d.nama 
+		FROM jasa j LEFT OUTER JOIN dokter d on(j.kd_dokter = d.kd_dokter)
+		<if test="kd_jasa!=null">
+			WHERE j.kd_dokter= #{kd_dokter}
+		</if>
+		ORDER BY j.kd_jasa
+		</select>
+		
+		<select id="getCount" resultType="int">
+		SELECT COUNT(kd_jasa)
+		FROM jasa
+		</select>
+</mapper>

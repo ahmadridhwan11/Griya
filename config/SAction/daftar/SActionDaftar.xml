@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="daftar" extends="struts-default" namespace="/daftar">
+    	
+		
+		<action name="inputPasienfrm" class="com.kimia.farma.JAction.daftar.PassienJAction" method="initFrm" >
+			<result name="input">/pages/modul/daftar/input.jsp</result>
+			<result name="success">/pages/modul/daftar/input.jsp</result>
+			<result name="error">/pages/modul/daftar/input.jsp</result>
+		</action>
+		
+		<action name="simpanPasien" class="com.kimia.farma.JAction.daftar.PassienJAction" method="savePasien">
+			<result name="input">/pages/modul/daftar/input.jsp</result>
+			<result name="success">/pages/modul/daftar/berhasil.jsp</result>
+			<result name="error">/pages/modul/daftar/input.jsp</result>
+		</action>
+	</package>
+</struts>

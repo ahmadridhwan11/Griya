@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimia.farma.Interface.SupplierInterface">
+	<resultMap id="BaseResultMap" type="com.kimia.farma.model.Supplier">
+		<id column="kd_supplier" property="kd_supplier" />
+		<result column="nama" property="nama" />
+		<result column="alamat" property="alamat" />
+		<result column="nomer_tlp" property="nomer_tlp" />
+	</resultMap>
+
+	<insert id="Insert" parameterType="com.kimia.farma.model.Supplier">
+		INSERT INTO supplier (kd_supplier,nama,alamat,nomer_tlp) 
+		VALUES(#{kd_supplier},#{nama},#{alamat},#{nomer_tlp})
+	</insert>
+
+	<update id="Update" parameterType="com.kimia.farma.model.Supplier">
+		UPDATE supplier SET kd_supplier = #{kd_supplier},nama = #{nama},alamat = #{alamat},
+		nomer_tlp =#{nomer_tlp}
+		 WHERE kd_supplier=#{kd_supplier}
+	</update>
+
+	<delete id="Delete" parameterType="java.lang.String">
+		DELETE FROM supplier WHERE
+		kd_supplier= #{kd_supplier}
+	</delete>
+
+
+	<select id="getSupplier" parameterType="com.kimia.farma.model.Supplier"
+		resultMap="BaseResultMap">
+		SELECT * FROM supplier
+		<if test="kd_supplier!=null">
+			WHERE kd_supplier= #{kd_supplier}
+		</if>
+	</select>
+	<select id="getSupWhere" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT * FROM supplier
+			WHERE kd_supplier= #{kd_supplier}
+		</select>
+		
+		<select id="getCount" resultType="int">
+		SELECT COUNT(kd_supplier)
+		FROM supplier
+		</select>
+</mapper>

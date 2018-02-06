@@ -1,0 +1,120 @@
+/* 
+    Document   : custom
+    Created on : Apr 2, 2015, 4:56:30 PM
+    Author     : Ricko
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+html,body{
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+.wrapper{
+    background: #cc66ff;
+}
+.containernya{
+    width: 1170px;
+    margin: auto;
+
+}
+.containernya.cont{
+    padding-top:50px;
+
+}
+.bread{
+    float: left;
+    width: 100%;
+}
+.txt-area{
+    resize: none;
+}
+.covernews{
+    width: 100%;
+    float: left;
+}
+.coverimage{
+    width: 200px;
+    float: left;
+    padding: 10px;
+    height: auto;
+    overflow: hidden;
+}
+.coverimage_banner{
+    width: 1024px;
+    margin: auto;
+    padding: 10px;
+    height: auto;
+    overflow: hidden;
+}
+.coverimage img{
+    height: 100%;
+    width: 100%;
+}
+.box-dasboard{
+    margin-top: 150px;
+    text-align: center;
+}
+.fortable .dataTables_filter input[type="search"]{
+    height: 25px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+#tableproduct #tableProduct_paginate a.paginate_button.current{
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #337ab7));
+    background: -moz-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #337ab7));
+    background: -o-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #337ab7));
+    background: linear-gradient(to bottom, white 0%, #337ab7 100%);
+   
+    
+}
+.clear{
+    clear: both;
+}
+.background{
+  background-color: #222222  !important;  
+}
+.dropdown-menu>li>a{
+  
+  text-decoration: none;
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+.dropdown-menu>li>a:hover{
+ color: #FFFFFF;
+ background-color: #000 !important;
+}
+.dropdown-menu>a{
+  
+  text-decoration: none;
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+.widthDetil{
+    width: 80px;
+}
+.wAction{
+    width: 15%;
+    text-align: center;
+}
+.wNo{
+   width: 5%; 
+}

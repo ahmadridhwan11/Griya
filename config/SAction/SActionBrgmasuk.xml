@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<constant name="struts.devMode" value="false"/>
+	<constant name="struts.i18.reload" value="false"/>
+	<constant name="struts.configuration.xml.reload" value="false"/>
+	<package name="bmasuk" extends="struts-default,,json-default" namespace="/bmasuk">
+	
+	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.kimia.farma.core.action.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	<global-results>
+			<result name="login">/pages/modul/user/Login.jsp</result>
+		</global-results>
+		<action name="tester" class="com.kimia.farma.JAction.BarangMasukJAction" method="ajax" >
+			<result type="json">
+                <param name="noCache">true</param>
+		        <param name="root">sp</param>
+    		</result>
+		</action>
+		<action name="inputBMasuk" class="com.kimia.farma.JAction.BarangMasukJAction"
+			method="input">
+			    	<interceptor-ref name="authStack"/>
+			
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="inputBMfrm" class="com.kimia.farma.JAction.BarangMasukJAction" method="initFrm" >
+			<result name="input" >/pages/modul/bmasuk/input.jsp</result>
+			<result name="success" >/pages/modul/bmasuk/input.jsp</result>
+			<result name="error">/pages/modul/bmasuk/input.jsp</result>
+		</action>
+		
+		<action name="simpanBM" class="com.kimia.farma.JAction.BarangMasukJAction" method="saveBM">
+		    	<interceptor-ref name="authStack"/>
+		
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="initUpdate" class="com.kimia.farma.JAction.BarangMasukJAction" method="initUpdate">
+		    	<interceptor-ref name="authStack"/>
+		
+			<result name="success">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="initUpdateFrm" class="com.kimia.farma.JAction.BarangMasukJAction" method="getBmWhere">
+			<result name="success">/pages/modul/bmasuk/edit.jsp</result>
+		</action>
+		<action name="update" class="com.kimia.farma.JAction.BarangMasukJAction" method="update" >
+		    	<interceptor-ref name="authStack"/>
+		
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="delete" class="com.kimia.farma.JAction.BarangMasukJAction" method="delete">
+			<result name="success">/pages/modul/main/main.jsp</result>
+		</action>
+		<action name="pagging" class="com.kimia.farma.JAction.BarangMasukJAction"
+			method="pagging">
+			    	<interceptor-ref name="authStack"/>
+			
+			<result name="input">/pages/modul/main/main.jsp</result>
+			<result name="success">/pages/modul/main/main.jsp</result>
+			<result name="error">/pages/modul/bmasuk/input.jsp</result>
+		</action>
+		
+	</package>
+</struts>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="default" namespace="/report" extends="jasperreports-default">
+    <action name="myJasperTest" class="com.kimia.farma.JAction.TransaksiJAction">
+        <result name="success" type="jasper">
+            <param name="location">/pages/modul/our_compiled_template.jasper</param>
+            <param name="dataSource">transaksi</param>
+            <param name="format">PDF</param>
+        </result>
+    </action>
+</package>
